@@ -11,8 +11,6 @@ How contributions are controlled on GitHub:
    - Require a pull request before merging, with 1 approval.
    - Require the status check **Validate skills / build**.
    - Allow the GitHub Actions bot to push the automatic index commit (bypass list), or the rebuild step will be blocked.
-4. **Optional: CODEOWNERS.** Create `.github/CODEOWNERS` containing
-   `* @VIB-CCB-BioIT/bioit-skills-maintainers`
-   so reviews are requested automatically. Only add it after the team exists.
+4. **CODEOWNERS** (`.github/CODEOWNERS`) currently lists `@mrahimpour`, so every pull request requests their review automatically. Once the maintainers team exists, change it to `* @VIB-CCB-BioIT/bioit-skills-maintainers`. To make that review mandatory, enable **Require review from Code Owners** in the branch rule.
 5. **Optional: Teams.** Subscribe the channel to the repo (`@GitHub subscribe VIB-CCB-BioIT/bioit-skills pulls releases`) so new skills are announced.
 6. **Workflow permissions:** Settings → Actions → General → Workflow permissions → Read and write.
