@@ -1,0 +1,39 @@
+name: Validate skills
+
+on:
+  pull_request:
+    paths: [skills/**, scripts/**]
+  push:
+    branches: [main]
+    paths: [skills/**, scripts/**]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+
+      # On pull requests: validate only (fails with a list of problems).
+      - name: Validate
+        if: github.event_name == 'pull_request'
+        run: python scripts/build_index.py
+
+      # On main: rebuild README index and skills.json, commit if changed.
+      - name: Rebuild and commit
+        if: github.event_name == 'push'
+        run: |
+          python scripts/build_index.py
+          if ! git diff --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md skills.json
+            git commit -m "Rebuild skills index [skip ci]"
+            git push
+          fi
