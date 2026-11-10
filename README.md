@@ -1,4 +1,4 @@
-# BioIT Skills
+# BioIT & AI Skills
 
 A shared library of agent skills for bioinformatics work at VIB-CCB BioIT. A skill is a folder with a `SKILL.md` file that tells an AI agent how to do one task well, for example annotating cell types or reviewing a pathway analysis.
 
