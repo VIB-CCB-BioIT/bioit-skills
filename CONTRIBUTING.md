@@ -17,7 +17,7 @@ Everything goes through a pull request, so every skill gets a second pair of eye
    - Fill in the sections: when to use, inputs, steps, outputs, checks, limitations.
 4. **Add supporting files** next to `SKILL.md` if needed (small example data, scripts, reference tables). Keep the folder under a few MB, with no patient data and no secrets.
 5. **Open a pull request.** Fill in the checklist. An automatic check validates the frontmatter; fix anything it reports.
-6. **Review.** A maintainer reads it and may ask for changes. After merge, the index in `README.md` and `skills.json` update automatically.
+6. **Review.** A maintainer reads it and may ask for changes. The index in `README.md` and `skills.json` is rebuilt automatically on your pull request.
 
 ## Quality bar
 

@@ -1,10 +1,11 @@
-name: Validate skills
+name: Rebuild skills index
 
+# Runs on pull requests only (main is protected, so bots cannot push to it).
+# For pull requests from branches of this repo, the regenerated files are
+# committed to the PR branch. For forks, the files are only validated; the
+# maintainer re-runs scripts/build_index.py after merging if needed.
 on:
   pull_request:
-    paths: [skills/**, scripts/**]
-  push:
-    branches: [main]
     paths: [skills/**, scripts/**]
 
 permissions:
@@ -15,21 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install pyyaml
-
-      # On pull requests: validate only (fails with a list of problems).
-      - name: Validate
-        if: github.event_name == 'pull_request'
+      - name: Validate and rebuild
         run: python scripts/build_index.py
-
-      # On main: rebuild README index and skills.json, commit if changed.
-      - name: Rebuild and commit
-        if: github.event_name == 'push'
+      - name: Commit regenerated files (same-repo PRs only)
+        if: github.event.pull_request.head.repo.full_name == github.repository
         run: |
-          python scripts/build_index.py
           if ! git diff --quiet; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
